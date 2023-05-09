@@ -1,0 +1,32 @@
+<div class="card">
+    <p-treeTable [value]="treeTableInput" [scrollable]="true" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let col of treeTablecolumns">{{ col.header }}</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+          <tr [ttRow]="rowNode">
+            <td *ngFor="let col of treeTablecolumns; let first = first">
+              <p-treeTableToggler [rowNode]="rowNode" *ngIf="first"></p-treeTableToggler>
+              <span *ngIf="col.field !== 'megnev' || !rowData?.entitas_az; else displayLink">
+                {{ rowData[col.field] }}
+              </span>
+              <ng-template #displayLink>
+                <div class="flex justify-content-between align-items-center">
+                  <span>
+                    {{ rowData[col.field] }}
+                  </span>
+                  <!-- TODO ez addig nem kell amíg nem szólnak, mert nem mutat sehova. VR Eszter kérésésre így megoldva. -->
+                  <!-- <p-button
+                    icon="pi pi-database"
+                    styleClass="p-button-rounded p-button-text"
+                    (click)="handleOpen($event, rowData.entitas_tipus, rowData.entitas_az)"
+                  ></p-button> -->
+                </div>
+              </ng-template>
+            </td>
+          </tr>
+        </ng-template>
+      </p-treeTable>
+</div>
